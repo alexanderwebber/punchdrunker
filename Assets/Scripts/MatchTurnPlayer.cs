@@ -14,12 +14,15 @@ public class MatchTurnPlayer : MonoBehaviour
 {
     public PlayerObject player;
 
+    public bool isPlayerTurn = false;
+
+    private MatchTurn MT;
+
     public enum TurnState
     {
         PROCESSING,
-        ADDTOLIST,
+        CHOOSEACTION,
         WAITING,
-        SELECTING,
         ACTION,
         KOd
     }
@@ -31,39 +34,39 @@ public class MatchTurnPlayer : MonoBehaviour
     //for the progress bar
     private float cur_cooldown = 0f;
     private float max_cooldown = 5f;
-    public Image ProgressBar;
+    public Image HPProgressBar;
+    public Image StaminaProgressBar;
 
 
+    private Vector3 startposition;
     // Start is called before the first frame update
     void Start()
     {
         currentState = TurnState.PROCESSING;
-        Debug.Log("START MatchTurnPlayer");
+        MT = GameObject.Find("BattleManager").GetComponent<MatchTurn>();
+        startposition = transform.position;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-//        Debug.Log(currentState);
+        Debug.Log("Player state = " + currentState);
 
         switch (currentState)
         {
             case (TurnState.PROCESSING):
-                // Ash version only:
-                // UpgradeProgressBar();
+                UpdateFight();
 
                 break;
 
-            case (TurnState.ADDTOLIST):
+            case (TurnState.CHOOSEACTION):
+                ChooseAction();
+                currentState = TurnState.WAITING;
 
                 break;
 
             case (TurnState.WAITING):
-
-                break;
-
-            case (TurnState.SELECTING):
 
                 break;
 
@@ -77,19 +80,29 @@ public class MatchTurnPlayer : MonoBehaviour
         }
 
     }
-
-    void UpgradeProgressBar()
+    // JJ:
+    void UpdateFight()
     {
-        // All from Ash version Only:
-        
+        //This function could be a good place for updating hp bar, etc. 
         cur_cooldown = cur_cooldown + Time.deltaTime;
         float calc_cooldown = cur_cooldown / max_cooldown;
-        ProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), ProgressBar.transform.localScale.y, ProgressBar.transform.localScale.z);
+        HPProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), HPProgressBar.transform.localScale.y, HPProgressBar.transform.localScale.z);
+        StaminaProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), StaminaProgressBar.transform.localScale.y, StaminaProgressBar.transform.localScale.z);
         if (cur_cooldown >= max_cooldown)
         {
-            currentState = TurnState.ADDTOLIST;
+            currentState = TurnState.CHOOSEACTION; // renamed from .ADDTOLIST
         }
-
-
     }
+
+    // JJ:
+    //The enemy's attack choice (maybe where AI could be implemented) 
+    void ChooseAction()
+    {
+        TurnHandler myAttack = new TurnHandler();
+        myAttack.Attacker = player.name;
+        myAttack.AttacksGameObject = this.gameObject;
+        MT.CollectActions(myAttack);
+    }
+
 }
+

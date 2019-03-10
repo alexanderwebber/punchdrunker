@@ -27,10 +27,8 @@ public class MatchTurnEnemy : MonoBehaviour
     public enum TurnState
     {
         PROCESSING,
-        CHOOSEACTION, // Ash verison = 'ADDTOLIST'
+        CHOOSEACTION,
         WAITING,
-        // Ash version had:
-        // SELECTING,
         ACTION,
         KOd // Ash version = 'DEAD'
     }
@@ -42,7 +40,8 @@ public class MatchTurnEnemy : MonoBehaviour
     //for the progress bar
     private float cur_cooldown = 0f;
     private float max_cooldown = 5f;
-    public Image ProgressBar;
+    public Image HPProgressBar;
+    public Image StaminaProgressBar;
 
     // JJ added
     //for animations
@@ -64,16 +63,14 @@ public class MatchTurnEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Enemey state = " + currentState);
+        Debug.Log("Enemy state = " + currentState);
 
         switch (currentState)
         {
             case (TurnState.PROCESSING):
-                // Ash version only:
-                 UpgradeProgressBar();
-
+               
                 // JJ addition
-//                UpdateFight();
+                UpdateFight();
                 break;
 
             case (TurnState.CHOOSEACTION): // Ash = .ADDTOLIST
@@ -87,11 +84,6 @@ public class MatchTurnEnemy : MonoBehaviour
             case (TurnState.WAITING):
                 break;
 
-            // Ash:
-/*            case (TurnState.SELECTING):
-
-                break;
-*/
             case (TurnState.ACTION):
 
                 break;
@@ -103,25 +95,18 @@ public class MatchTurnEnemy : MonoBehaviour
     }
 
 
-    // ASH only version:
-    void UpgradeProgressBar()
-    {
-        cur_cooldown = cur_cooldown + Time.deltaTime;
-        float calc_cooldown = cur_cooldown / max_cooldown;
-        // Need progress bar image to uncomment:
-        // ProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), ProgressBar.transform.localScale.y, ProgressBar.transform.localScale.z);
-        if (cur_cooldown >= max_cooldown)
-        {
-            currentState = TurnState.CHOOSEACTION; // renamed from .ADDTOLIST
-        }
-
-    }
-
     // JJ:
     void UpdateFight()
     {
         //This function could be a good place for updating hp bar, etc. 
-        currentState = TurnState.CHOOSEACTION;
+        cur_cooldown = cur_cooldown + Time.deltaTime;
+        float calc_cooldown = cur_cooldown / max_cooldown;
+        HPProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), HPProgressBar.transform.localScale.y, HPProgressBar.transform.localScale.z);
+        StaminaProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), StaminaProgressBar.transform.localScale.y, StaminaProgressBar.transform.localScale.z);
+        if (cur_cooldown >= max_cooldown)
+        {
+            currentState = TurnState.CHOOSEACTION; // renamed from .ADDTOLIST
+        }
     }
 
     // JJ:
