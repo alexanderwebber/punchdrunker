@@ -6,7 +6,7 @@ using System;
 // JJ addition
 [System.Serializable]
 
-public class EnemyObject : MonoBehaviour
+public class EnemyObject
 {
 
     // Ash's work:
@@ -27,7 +27,6 @@ public class EnemyObject : MonoBehaviour
     public int EnemyPower { get; private set; }
     public int EnemySpeed { get; private set; }
     public int EnemyTough { get; private set; }
-    public int TurnCount { get; private set; }
 
     //https://unity3d.com/learn/tutorials/topics/scripting/delegates
     //created for switching moves depending on enemy type

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 // Most of this originally written by Ash
 // changes / additions noted
@@ -17,6 +18,9 @@ public class MatchTurnPlayer : MonoBehaviour
     public bool isPlayerTurn = false;
 
     private MatchTurn MT;
+
+    [NonSerialized]
+    public float HPpercent;
 
     public enum TurnState
     {
@@ -86,7 +90,12 @@ public class MatchTurnPlayer : MonoBehaviour
         //This function could be a good place for updating hp bar, etc. 
         cur_cooldown = cur_cooldown + Time.deltaTime;
         float calc_cooldown = cur_cooldown / max_cooldown;
-        HPProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), HPProgressBar.transform.localScale.y, HPProgressBar.transform.localScale.z);
+
+        // TK: bar shows actual HP amount, rather than being a 2nd timer
+        HPpercent = (float)player.currentHP / player.baseHP;
+        HPProgressBar.fillAmount = HPpercent;
+        // HPProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), HPProgressBar.transform.localScale.y, HPProgressBar.transform.localScale.z);
+
         StaminaProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), StaminaProgressBar.transform.localScale.y, StaminaProgressBar.transform.localScale.z);
         if (cur_cooldown >= max_cooldown)
         {
@@ -95,12 +104,13 @@ public class MatchTurnPlayer : MonoBehaviour
     }
 
     // JJ:
-    //The enemy's attack choice (maybe where AI could be implemented) 
+    //The player's attack choice
     void ChooseAction()
     {
         TurnHandler myAttack = new TurnHandler();
         myAttack.Attacker = player.name;
         myAttack.AttacksGameObject = this.gameObject;
+        myAttack.AttackersTarget = this.gameObject; // who it is attacking
         MT.CollectActions(myAttack);
     }
 

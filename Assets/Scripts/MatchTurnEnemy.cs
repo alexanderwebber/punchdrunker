@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 // Most of this originally written by Ash
 // Additions noted
@@ -23,6 +24,8 @@ public class MatchTurnEnemy : MonoBehaviour
     // JJ Addition:
     private MatchTurn MT;
 
+    [NonSerialized]
+    public float HPpercent;
 
     public enum TurnState
     {
@@ -78,7 +81,6 @@ public class MatchTurnEnemy : MonoBehaviour
                 // JJ:
                 ChooseAction();
                 currentState = TurnState.WAITING;
-
                 break;
 
             case (TurnState.WAITING):
@@ -94,14 +96,18 @@ public class MatchTurnEnemy : MonoBehaviour
         }
     }
 
-
     // JJ:
     void UpdateFight()
     {
         //This function could be a good place for updating hp bar, etc. 
         cur_cooldown = cur_cooldown + Time.deltaTime;
         float calc_cooldown = cur_cooldown / max_cooldown;
-        HPProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), HPProgressBar.transform.localScale.y, HPProgressBar.transform.localScale.z);
+
+        // TK: bar shows actual HP amount, rather than being a 2nd timer
+        HPpercent = (float)enemy.currentHP / enemy.baseHP;
+        HPProgressBar.fillAmount = HPpercent;
+        // HPProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), HPProgressBar.transform.localScale.y, HPProgressBar.transform.localScale.z);
+
         StaminaProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), StaminaProgressBar.transform.localScale.y, StaminaProgressBar.transform.localScale.z);
         if (cur_cooldown >= max_cooldown)
         {
@@ -114,9 +120,9 @@ public class MatchTurnEnemy : MonoBehaviour
     void ChooseAction()
     {
         TurnHandler myAttack = new TurnHandler();
-        myAttack.Attacker = enemy.name;
-        myAttack.AttacksGameObject = this.gameObject;
-        // myAttack.AttackersTarget = MT.PlayerTurnList[Random.Range(0, MT.PlayerTurnList.Count)]; //doesn't make sense for our game.. needs revision
+        myAttack.Attacker = enemy.name; //name of attacker
+        myAttack.AttacksGameObject = this.gameObject; //who attacks
+        myAttack.AttackersTarget = this.gameObject; // who it is attacking
         MT.CollectActions(myAttack);
     }
 
