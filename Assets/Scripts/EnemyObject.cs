@@ -70,6 +70,69 @@ public class EnemyObject : MonoBehaviour
         EnemySpeed = sp;
     }
 
+    public bool IsAboveThreeQuartersHP()
+    {
+        if (currentHP >= 0.75 * EnemyMaxHP)
+            return true;
+        else
+            return false;
+    }
+
+    public bool FirstTurnAboveThreeQuartersHP()
+    {
+        if (IsAboveThreeQuartersHP())
+        {
+            if (TurnCount == 0)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
+    public bool IsBetweenOneQuarterAndThreeQuartersHP()
+    {
+        if (currentHP >= 0.25 * EnemyMaxHP && currentHP < 0.75 * EnemyMaxHP)
+            return true;
+        else
+            return false;        
+    }
+
+    public bool FirstTurnBetweenOneQuarterAndThreeQuartersHP()
+    {
+        if (IsBetweenOneQuarterAndThreeQuartersHP())
+        {
+            if (TurnCount == 0)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
+    public bool IsBelowOneQuarterHP()
+    {
+        if (currentHP < 0.25 * EnemyMaxHP)
+            return true;
+        else
+            return false;
+    }
+
+    public bool FirstTurnBelowOneQuarterHP()
+    {
+        if (IsBelowOneQuarterHP())
+        {
+            if (TurnCount == 0)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
     void Start()
     {
         SavePrefs prefs = new SavePrefs();
