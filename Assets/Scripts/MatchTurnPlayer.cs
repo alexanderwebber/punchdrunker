@@ -3,70 +3,59 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Most of this originally written by Ash
-// changes / additions noted
-// things renamed from :
-// HeroStateMachine -> MatchTurnPlayer
-// BaseHero hero -> PlayerObject player;
-// DEAD -> KOd
-
 public class MatchTurnPlayer : MonoBehaviour
 {
-    public PlayerObject player;
-
-    public bool isPlayerTurn = false;
 
     private MatchTurn MT;
+    public PlayerObject player;
 
     public enum TurnState
     {
         PROCESSING,
-        CHOOSEACTION,
+        ADDTOLIST,
         WAITING,
+        SELECTING,
         ACTION,
         KOd
     }
 
     public TurnState currentState;
 
+    public GameObject Selector;
 
-    // This is from Ash's version only:
-    //for the progress bar
-    private float cur_cooldown = 0f;
-    private float max_cooldown = 5f;
-    public Image HPProgressBar;
-    public Image StaminaProgressBar;
-
-
-    private Vector3 startposition;
     // Start is called before the first frame update
     void Start()
     {
-        currentState = TurnState.PROCESSING;
+        Selector.SetActive(false);
         MT = GameObject.Find("BattleManager").GetComponent<MatchTurn>();
-        startposition = transform.position;
+        currentState = TurnState.PROCESSING;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Player state = " + currentState);
+        //Debug.Log(currentState);
 
         switch (currentState)
         {
             case (TurnState.PROCESSING):
-                UpdateFight();
 
+                UpgradeProgressBar();
                 break;
 
-            case (TurnState.CHOOSEACTION):
-                ChooseAction();
-                currentState = TurnState.WAITING;
+            case (TurnState.ADDTOLIST):
 
+                MT.PlayerToManage.Add(this.gameObject);
+                currentState = TurnState.WAITING;
                 break;
 
             case (TurnState.WAITING):
+                //idle state
+
+                break;
+
+            case (TurnState.SELECTING):
 
                 break;
 
@@ -80,29 +69,10 @@ public class MatchTurnPlayer : MonoBehaviour
         }
 
     }
-    // JJ:
-    void UpdateFight()
-    {
-        //This function could be a good place for updating hp bar, etc. 
-        cur_cooldown = cur_cooldown + Time.deltaTime;
-        float calc_cooldown = cur_cooldown / max_cooldown;
-        HPProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), HPProgressBar.transform.localScale.y, HPProgressBar.transform.localScale.z);
-        StaminaProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), StaminaProgressBar.transform.localScale.y, StaminaProgressBar.transform.localScale.z);
-        if (cur_cooldown >= max_cooldown)
-        {
-            currentState = TurnState.CHOOSEACTION; // renamed from .ADDTOLIST
-        }
-    }
 
-    // JJ:
-    //The enemy's attack choice (maybe where AI could be implemented) 
-    void ChooseAction()
+    void UpgradeProgressBar()
     {
-        TurnHandler myAttack = new TurnHandler();
-        myAttack.Attacker = player.name;
-        myAttack.AttacksGameObject = this.gameObject;
-        MT.CollectActions(myAttack);
-    }
 
+        currentState = TurnState.ADDTOLIST;
+    }
 }
-

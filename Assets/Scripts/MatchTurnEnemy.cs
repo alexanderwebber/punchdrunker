@@ -1,28 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-// Most of this originally written by Ash
-// Additions noted
-// things renamed from :
-// EnemyStateMachine -> MatchTurnEnemy
-// BaseEnemy enemy -> EnemyObject enemy
-// ADDTOLIST -> CHOOSEACTION
-// DEAD -> KOd
 
 public class MatchTurnEnemy : MonoBehaviour
 {
-    public EnemyObject enemy;
-
-
-    // THIS IS WHAT DON HAD IN HIS SCRIPTS (and not the other stuff):
-    // End of player turn switches this to true, then enemyTurn() proceeds
-    public bool isEnemyTurn = false;
-
-    // JJ Addition:
     private MatchTurn MT;
-
+    public EnemyObject enemy;
 
     public enum TurnState
     {
@@ -30,32 +14,26 @@ public class MatchTurnEnemy : MonoBehaviour
         CHOOSEACTION,
         WAITING,
         ACTION,
-        KOd // Ash version = 'DEAD'
+        KOd
     }
-
 
     public TurnState currentState;
 
-    // Ash version only:
-    //for the progress bar
-    private float cur_cooldown = 0f;
-    private float max_cooldown = 5f;
-    public Image HPProgressBar;
-    public Image StaminaProgressBar;
+    public GameObject PlayerToAttack;
 
-    // JJ added
     //for animations
     private Vector3 startposition;
+
+    private bool actionStarted = false;
 
     // Start is called before the first frame update
     void Start()
     {
         currentState = TurnState.PROCESSING;
 
-
-        // JJ stuff:
         //who's in the battle 
         MT = GameObject.Find("BattleManager").GetComponent<MatchTurn>();
+
         //for animations
         startposition = transform.position;
     }
@@ -63,29 +41,29 @@ public class MatchTurnEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Enemy state = " + currentState);
+        //Debug.Log(currentState);
 
         switch (currentState)
         {
             case (TurnState.PROCESSING):
-               
-                // JJ addition
+
                 UpdateFight();
                 break;
 
-            case (TurnState.CHOOSEACTION): // Ash = .ADDTOLIST
+            case (TurnState.CHOOSEACTION):
 
-                // JJ:
                 ChooseAction();
                 currentState = TurnState.WAITING;
 
                 break;
 
             case (TurnState.WAITING):
+                Debug.Log("inside turnstate waiting");
                 break;
 
-            case (TurnState.ACTION):
 
+            case (TurnState.ACTION):
+                StartCoroutine(TimeForAction());
                 break;
 
             case (TurnState.KOd):
@@ -94,30 +72,49 @@ public class MatchTurnEnemy : MonoBehaviour
         }
     }
 
-
-    // JJ:
     void UpdateFight()
     {
         //This function could be a good place for updating hp bar, etc. 
-        cur_cooldown = cur_cooldown + Time.deltaTime;
-        float calc_cooldown = cur_cooldown / max_cooldown;
-        HPProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), HPProgressBar.transform.localScale.y, HPProgressBar.transform.localScale.z);
-        StaminaProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), StaminaProgressBar.transform.localScale.y, StaminaProgressBar.transform.localScale.z);
-        if (cur_cooldown >= max_cooldown)
-        {
-            currentState = TurnState.CHOOSEACTION; // renamed from .ADDTOLIST
-        }
+        currentState = TurnState.CHOOSEACTION;
     }
 
-    // JJ:
     //The enemy's attack choice (maybe where AI could be implemented) 
     void ChooseAction()
     {
         TurnHandler myAttack = new TurnHandler();
         myAttack.Attacker = enemy.name;
+        myAttack.Type = "Enemy";
         myAttack.AttacksGameObject = this.gameObject;
-        // myAttack.AttackersTarget = MT.PlayerTurnList[Random.Range(0, MT.PlayerTurnList.Count)]; //doesn't make sense for our game.. needs revision
+       // myAttack.AttackersTarget = MT.PlayerTurnList[Random.Range(0, MT.PlayerTurnList.Count)]; //doesn't make sense for our game.. needs revision
         MT.CollectActions(myAttack);
+    }
+
+    private IEnumerator TimeForAction()
+    {
+        if(actionStarted)
+        {
+            yield break;
+        }
+
+        actionStarted = true;
+
+        //animate enemy
+        //wait a moment
+        yield return new WaitForSeconds(0.5f);
+        //perform damage
+        //animate enemy back to start position
+
+        //remove this performer from the list in matchturn
+        MT.TurnList.RemoveAt(0);
+
+        //reset MT -> wait
+        MT.turnStates = MatchTurn.PerformAction.WAIT;
+
+        actionStarted = false;
+
+        //reset this enemy state
+
+        currentState = TurnState.PROCESSING;
     }
 
 }
