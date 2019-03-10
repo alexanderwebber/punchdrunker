@@ -27,6 +27,7 @@ public class EnemyObject : MonoBehaviour
     public int EnemyPower { get; private set; }
     public int EnemySpeed { get; private set; }
     public int EnemyTough { get; private set; }
+    public int TurnCount { get; private set; }
 
     //https://unity3d.com/learn/tutorials/topics/scripting/delegates
     //created for switching moves depending on enemy type
@@ -102,106 +103,6 @@ public class EnemyObject : MonoBehaviour
     void Update()
     {
         
-    }
-
-}
-
-// Enemy (Power Type) 
-public class PowerEnemy : EnemyObject
-{
-    public PowerEnemy(int hp, int st, int p, int t, int sp) : base(hp, st, p, t, sp)
-    {
-        enemyMove1 = StraightShot;
-        enemyMove2 = AbsoluteUnit;
-        enemyMove3 = MegaRightHook;
-        enemyMove4 = HatefulPunch;
-
-    }
-
-    void StraightShot()
-    {
-
-    }
-
-    void AbsoluteUnit()
-    {
-
-    }
-
-    void MegaRightHook()
-    {
-        
-    }
-
-    void HatefulPunch()
-    {
-
-    }
-}
-
-
-// Enemy (Defense Type)
-public class DefenseEnemy : EnemyObject
-{
-    public DefenseEnemy(int hp, int st, int p, int t, int sp) : base(hp, st, p, t, sp)
-    {
-        enemyMove1 = ScratchSurface;
-        enemyMove2 = Synthesize;
-        enemyMove3 = RightHook;
-        enemyMove4 = Cornered;
-    }
-
-    void ScratchSurface()
-    {
-        //WIP
-    }
-
-    void Synthesize()
-    {
-        //WIP
-    }
-
-    void RightHook()
-    {
-        //WIP
-    }
-
-    void Cornered()
-    {
-        //WIP
-    }
-}
-
-
-// Enemy (Speed Type)
-public class SpeedEnemy : EnemyObject
-{
-    public SpeedEnemy(int hp, int st, int p, int t, int sp) : base(hp, st, p, t, sp)
-    {
-        enemyMove1 = Unavoidable;
-        enemyMove2 = Tireless;
-        enemyMove3 = ShutterSpeed;
-        enemyMove4 = Evasion;
-    }
-
-    void Unavoidable()
-    {
-        //WIP
-    }
-
-    void Tireless()
-    {
-        //WIP
-    }
-
-    void ShutterSpeed()
-    {
-        //WIP
-    }
-
-    void Evasion()
-    {
-        //WIP
     }
 
 }
