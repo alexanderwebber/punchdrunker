@@ -204,14 +204,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1955395558512152440, guid: 6123a465d179ef840a06341362a94ce5,
-          type: 3}
-        m_MethodName: GoGymMenu
+      - m_Target: {fileID: 1473407572}
+        m_MethodName: playerRecoverAnimate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -408,6 +407,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 97035453}
   m_CullTransparentMesh: 0
+--- !u!82 &107676478 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 982996169123321082, guid: 3363df75b36b1bf4eb3da016370354b3,
+    type: 3}
+  m_PrefabInstance: {fileID: 982996169091274692}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &168056561
 GameObject:
   m_ObjectHideFlags: 0
@@ -1354,14 +1359,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1955395558512152440, guid: 6123a465d179ef840a06341362a94ce5,
-          type: 3}
-        m_MethodName: GoGymMenu
+      - m_Target: {fileID: 1473407572}
+        m_MethodName: playerJabAnimate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1569,6 +1573,7 @@ GameObject:
   - component: {fileID: 911681067}
   - component: {fileID: 911681066}
   - component: {fileID: 911681068}
+  - component: {fileID: 911681069}
   m_Layer: 0
   m_Name: EnemyObject
   m_TagString: Enemy
@@ -1662,6 +1667,25 @@ MonoBehaviour:
   currentState: 0
   HPProgressBar: {fileID: 1984237623}
   StaminaProgressBar: {fileID: 237120359}
+--- !u!95 &911681069
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911681065}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3136bba9763795b409be94af3ee8a83a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &949149930
 GameObject:
   m_ObjectHideFlags: 0
@@ -1831,7 +1855,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1955395558512152440, guid: 6123a465d179ef840a06341362a94ce5,
           type: 3}
-        m_MethodName: GoGymMenu
+        m_MethodName: GoMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2023,19 +2047,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1205233238}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1955395558512152440, guid: 6123a465d179ef840a06341362a94ce5,
-          type: 3}
-        m_MethodName: GoGymMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1205233238
@@ -2160,6 +2172,8 @@ GameObject:
   - component: {fileID: 1473407569}
   - component: {fileID: 1473407568}
   - component: {fileID: 1473407570}
+  - component: {fileID: 1473407571}
+  - component: {fileID: 1473407572}
   m_Layer: 0
   m_Name: PlayerObject
   m_TagString: Player
@@ -2255,6 +2269,39 @@ MonoBehaviour:
   currentState: 0
   HPProgressBar: {fileID: 1440085009}
   StaminaProgressBar: {fileID: 577365337}
+--- !u!95 &1473407571
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473407567}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 67cfbe543dd27af46b8d750d1b6c921b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1473407572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473407567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09b5e20f4a7bd054aa028f000238d909, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerAnimator: {fileID: 1473407571}
+  EnemyAnimator: {fileID: 0}
 --- !u!1 &1512083539
 GameObject:
   m_ObjectHideFlags: 0
@@ -2347,14 +2394,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1955395558512152440, guid: 6123a465d179ef840a06341362a94ce5,
-          type: 3}
-        m_MethodName: GoGymMenu
+      - m_Target: {fileID: 1473407572}
+        m_MethodName: playerJabAnimate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2869,3 +2915,146 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1984237621}
   m_CullTransparentMesh: 0
+--- !u!1001 &982996169091274692
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 982996169123321081, guid: 3363df75b36b1bf4eb3da016370354b3,
+        type: 3}
+      propertyPath: m_Name
+      value: MusicPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 982996169123320964, guid: 3363df75b36b1bf4eb3da016370354b3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 683.6346
+      objectReference: {fileID: 0}
+    - target: {fileID: 982996169123320964, guid: 3363df75b36b1bf4eb3da016370354b3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 148.43521
+      objectReference: {fileID: 0}
+    - target: {fileID: 982996169123320964, guid: 3363df75b36b1bf4eb3da016370354b3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 21.90703
+      objectReference: {fileID: 0}
+    - target: {fileID: 982996169123320964, guid: 3363df75b36b1bf4eb3da016370354b3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 982996169123320964, guid: 3363df75b36b1bf4eb3da016370354b3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 982996169123320964, guid: 3363df75b36b1bf4eb3da016370354b3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 982996169123320964, guid: 3363df75b36b1bf4eb3da016370354b3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 982996169123320964, guid: 3363df75b36b1bf4eb3da016370354b3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 982996169123320964, guid: 3363df75b36b1bf4eb3da016370354b3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 982996169123320964, guid: 3363df75b36b1bf4eb3da016370354b3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 982996169123320964, guid: 3363df75b36b1bf4eb3da016370354b3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3363df75b36b1bf4eb3da016370354b3, type: 3}
+--- !u!1001 &6322235919153301785
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4485402927834106240, guid: 0d5e987d3ef364348bf73885495b17ee,
+        type: 3}
+      propertyPath: m_Name
+      value: AudioControl
+      objectReference: {fileID: 0}
+    - target: {fileID: 6379105688906497591, guid: 0d5e987d3ef364348bf73885495b17ee,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 683.6346
+      objectReference: {fileID: 0}
+    - target: {fileID: 6379105688906497591, guid: 0d5e987d3ef364348bf73885495b17ee,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 148.43521
+      objectReference: {fileID: 0}
+    - target: {fileID: 6379105688906497591, guid: 0d5e987d3ef364348bf73885495b17ee,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 21.90703
+      objectReference: {fileID: 0}
+    - target: {fileID: 6379105688906497591, guid: 0d5e987d3ef364348bf73885495b17ee,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6379105688906497591, guid: 0d5e987d3ef364348bf73885495b17ee,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6379105688906497591, guid: 0d5e987d3ef364348bf73885495b17ee,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6379105688906497591, guid: 0d5e987d3ef364348bf73885495b17ee,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6379105688906497591, guid: 0d5e987d3ef364348bf73885495b17ee,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6379105688906497591, guid: 0d5e987d3ef364348bf73885495b17ee,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6379105688906497591, guid: 0d5e987d3ef364348bf73885495b17ee,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6379105688906497591, guid: 0d5e987d3ef364348bf73885495b17ee,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4565477607344380755, guid: 0d5e987d3ef364348bf73885495b17ee,
+        type: 3}
+      propertyPath: musicPlayer
+      value: 
+      objectReference: {fileID: 107676478}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0d5e987d3ef364348bf73885495b17ee, type: 3}

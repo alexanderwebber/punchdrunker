@@ -14,26 +14,23 @@ public class Animations : MonoBehaviour
     // Define any objects/components you need here
     // then drag it into the section of the inspector
     // so that it can be used
-    Animator PlayerAnimator;
-    Animator EnemyAnimator;
+    public Animator PlayerAnimator;
+    public Animator EnemyAnimator;
 
     // example function:
-    public void PlayerPunchAnimation()
+    public void playerJabAnimate()
     {
         // PlayerAnimator.SetTrigger("nameoftriggerhere");
+        PlayerAnimator.SetTrigger("doJab");
     }
 
-
-
-    // Start is called before the first frame update
-    void Start()
+    public void playerCrossAnimate()
     {
+        PlayerAnimator.SetTrigger("doCross");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void playerRecoverAnimate()
     {
+        PlayerAnimator.SetTrigger("doRecover");
     }
-
-
 }
