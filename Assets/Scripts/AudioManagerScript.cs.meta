@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: ba016ba1bfa81fb4896cfad2f5cd9aea
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - MainMenuBGM: {fileID: 8300000, guid: c0ba4c38c99ad1f438029882043ad222, type: 3}
+  - GameOverBGM: {instanceID: 0}
+  - VictoryBGM: {instanceID: 0}
+  - GymBGM: {instanceID: 0}
+  - Rank2MatchBGM: {instanceID: 0}
+  - Rank1MatchBGM: {instanceID: 0}
+  - RankCMatchBGM: {instanceID: 0}
+  - musicSource: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
