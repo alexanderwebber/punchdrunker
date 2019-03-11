@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using BehaviorTree;
 
 // JJ addition
 [System.Serializable]
@@ -46,38 +45,38 @@ public class EnemyObject : MonoBehaviour
     public EnemyMove2Del enemyMove2;
     public EnemyMove3Del enemyMove3;
     public EnemyMove4Del enemyMove4;
-    public BehaviorTree.BehaviorTree EnemyTree;
+    public EnemyBehaviorTree EnemyTree;
 
-    public Result EnemyMove1inTree(BehaviorTree.BehaviorTree tree)
+    public Result EnemyMove1inTree(EnemyBehaviorTree tree)
     {
         enemyMove1();
         return new Result(true);
     }
 
-    public Result EnemyMove2inTree(BehaviorTree.BehaviorTree tree)
+    public Result EnemyMove2inTree(EnemyBehaviorTree tree)
     {
         enemyMove2();
         return new Result(true);
     }
 
-    public Result EnemyMove3inTree(BehaviorTree.BehaviorTree tree)
+    public Result EnemyMove3inTree(EnemyBehaviorTree tree)
     {
         enemyMove3();
         return new Result(true);
     }
 
-    public Result EnemyMove4inTree(BehaviorTree.BehaviorTree tree)
+    public Result EnemyMove4inTree(EnemyBehaviorTree tree)
     {
         enemyMove4();
         return new Result(true);
     }
 
-    public Result DummyNode(BehaviorTree.BehaviorTree tree)
+    public Result DummyNode(EnemyBehaviorTree tree)
     {
         return new Result(true);
     }
 
-    public BehaviorTree.BehaviorTree BuildTree()
+    public EnemyBehaviorTree BuildTree()
     {
         Dictionary<Node, float> HighHPMoveset = new Dictionary<Node, float>
         {
@@ -110,7 +109,7 @@ public class EnemyObject : MonoBehaviour
         var CheckHPIsMedium = new Selector(IfMiddleHP, FirstTurnAtMiddleHP, CheckHPIsLow);
         var CheckHPIsHigh = new Selector(IfHighHP, HighHP, CheckHPIsMedium);
 
-        BehaviorTree.BehaviorTree TempTree = new BehaviorTree.BehaviorTree(CheckHPIsHigh, 1);
+        EnemyBehaviorTree TempTree = new EnemyBehaviorTree(CheckHPIsHigh, 1);
 
         return TempTree;
 
@@ -178,7 +177,7 @@ public class EnemyObject : MonoBehaviour
             return false;
     }
 
-    public Result IfHighHP(BehaviorTree.BehaviorTree tree)
+    public Result IfHighHP(EnemyBehaviorTree tree)
     {
         if (IsAboveThreeQuartersHP())
             HighHPStatus = true;
@@ -187,7 +186,7 @@ public class EnemyObject : MonoBehaviour
         return new Result(true);
     }
 
-   public Result IfMiddleHP(BehaviorTree.BehaviorTree tree)
+   public Result IfMiddleHP(EnemyBehaviorTree tree)
     {
         if (IsBetweenOneQuarterAndThreeQuartersHP())
             MiddleHPStatus = true;
@@ -196,7 +195,7 @@ public class EnemyObject : MonoBehaviour
         return new Result(true);
     }
 
-    public Result IfLowHp(BehaviorTree.BehaviorTree tree)
+    public Result IfLowHp(EnemyBehaviorTree tree)
     {
         if (IsBelowOneQuarterHP())
             LowHpStatus = true;
@@ -205,7 +204,7 @@ public class EnemyObject : MonoBehaviour
         return new Result(true);
     }
 
-    public Result IfFirstTurnInHpState(BehaviorTree.BehaviorTree tree)
+    public Result IfFirstTurnInHpState(EnemyBehaviorTree tree)
     {
         if (IsFirstTurnInHPState())
             FirstTurnStatus = true;

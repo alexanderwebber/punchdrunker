@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviorTree
+
+public interface Node
 {
-    public interface Node
-    {
-        Result Execute(BehaviorTree tree);
-        bool IsConditional();
-        List<Node> Children();
-    }
+    Result Execute(EnemyBehaviorTree tree);
+    bool IsConditional();
+    List<Node> Children();
 }
+
 

@@ -3,30 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviorTree
+public class Leaf : Node
 {
-    public class Leaf : Node
+    private readonly Func<EnemyBehaviorTree, Result> action;
+
+    public Leaf(Func<EnemyBehaviorTree, Result> action)
     {
-        private readonly Func<BehaviorTree, Result> action;
-        
-        public Leaf(Func<BehaviorTree, Result> action)
-        {
-            this.action = action;
-        }
+        this.action = action;
+    }
 
-        public Result Execute(BehaviorTree tree)
-        {
-            return action(tree);
-        }
+    public Result Execute(EnemyBehaviorTree tree)
+    {
+        return action(tree);
+    }
 
-        public bool IsConditional()
-        {
-            return false;
-        }
+    public bool IsConditional()
+    {
+        return false;
+    }
 
-        public List<Node> Children()
-        {
-            return null;
-        }
+    public List<Node> Children()
+    {
+        return null;
     }
 }
+
