@@ -32,7 +32,10 @@ public class MatchTurn : MonoBehaviour // Ash verison called BattleStateMachine
     {
         turnStates = PerformAction.WAIT; // ash version = 'battleStates'
         // JJ Addition:
-        EnemyTurnList.AddRange(GameObject.FindGameObjectsWithTag("EnemyObject"));
+        EnemyTurnList.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
+
+        //Ash Addition:
+        PlayerTurnList.AddRange(GameObject.FindGameObjectsWithTag("Player"));
 
     }
 

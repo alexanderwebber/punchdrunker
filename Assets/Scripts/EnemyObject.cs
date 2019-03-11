@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using BehaviorTree;
 
 // JJ addition
 [System.Serializable]
@@ -27,7 +28,12 @@ public class EnemyObject : MonoBehaviour
     public int EnemyPower { get; private set; }
     public int EnemySpeed { get; private set; }
     public int EnemyTough { get; private set; }
-    public int TurnCount { get; private set; }
+    public int TurnCount { get; set; }
+    public bool HighHPStatus = true;
+    public bool MiddleHPStatus = false;
+    public bool LowHpStatus = false;
+    public bool FirstTurnStatus = true;
+    public bool SkipStatus = false;
 
     //https://unity3d.com/learn/tutorials/topics/scripting/delegates
     //created for switching moves depending on enemy type
@@ -40,7 +46,77 @@ public class EnemyObject : MonoBehaviour
     public EnemyMove2Del enemyMove2;
     public EnemyMove3Del enemyMove3;
     public EnemyMove4Del enemyMove4;
+    public BehaviorTree.BehaviorTree EnemyTree;
 
+    public Result EnemyMove1inTree(BehaviorTree.BehaviorTree tree)
+    {
+        enemyMove1();
+        return new Result(true);
+    }
+
+    public Result EnemyMove2inTree(BehaviorTree.BehaviorTree tree)
+    {
+        enemyMove2();
+        return new Result(true);
+    }
+
+    public Result EnemyMove3inTree(BehaviorTree.BehaviorTree tree)
+    {
+        enemyMove3();
+        return new Result(true);
+    }
+
+    public Result EnemyMove4inTree(BehaviorTree.BehaviorTree tree)
+    {
+        enemyMove4();
+        return new Result(true);
+    }
+
+    public Result DummyNode(BehaviorTree.BehaviorTree tree)
+    {
+        return new Result(true);
+    }
+
+    public BehaviorTree.BehaviorTree BuildTree()
+    {
+        Dictionary<Node, float> HighHPMoveset = new Dictionary<Node, float>
+        {
+            { new Leaf(EnemyMove1inTree), 0.5F },
+            { new Leaf(EnemyMove2inTree), 0.5F }
+        };
+
+        Dictionary<Node, float> MiddleHPMoveset = new Dictionary<Node, float>
+        {
+            { new Leaf(EnemyMove2inTree), 0.5F },
+            { new Leaf(EnemyMove3inTree), 0.5F },
+        };
+
+        Dictionary<Node, float> LowHPMoveset = new Dictionary<Node, float>
+        {
+            { new Leaf(EnemyMove1inTree), 0.25F },
+            { new Leaf(EnemyMove2inTree), 0.25F },
+            { new Leaf(EnemyMove3inTree), 0.25F },
+            { new Leaf(EnemyMove4inTree), 0.25F }
+        };
+
+        var LowHP = new SelectorRandomArray(LowHPMoveset);
+        var MiddleHP = new SelectorRandomArray(MiddleHPMoveset);
+        var HighHP = new SelectorRandomArray(HighHPMoveset);
+
+        var FirstTurnAtLowHP = new Selector(IfFirstTurnInHpState, new Leaf(EnemyMove4inTree), LowHP);
+        var FirstTurnAtMiddleHP = new Selector(IfFirstTurnInHpState, new Leaf(EnemyMove3inTree), MiddleHP);
+
+        var CheckHPIsLow = new Selector(IfLowHp, FirstTurnAtLowHP, new Leaf(DummyNode));
+        var CheckHPIsMedium = new Selector(IfMiddleHP, FirstTurnAtMiddleHP, CheckHPIsLow);
+        var CheckHPIsHigh = new Selector(IfHighHP, HighHP, CheckHPIsMedium);
+
+        BehaviorTree.BehaviorTree TempTree = new BehaviorTree.BehaviorTree(CheckHPIsHigh, 1);
+
+        return TempTree;
+
+    }
+    
+    /*
     public void EnemySkipTurn()
     {
         MatchTurnEnemy mte = new MatchTurnEnemy();
@@ -49,6 +125,14 @@ public class EnemyObject : MonoBehaviour
             mte.isEnemyTurn = false;
         }
     } 
+    */
+
+    public void SkipsTurn(int turns)
+    {
+        if (SkipStatus == false)
+            SkipStatus = true;
+    }
+
 
     public bool inTraining = false; // Need to implement function to switch to true when in Training mode
 
@@ -78,38 +162,12 @@ public class EnemyObject : MonoBehaviour
             return false;
     }
 
-    public bool FirstTurnAboveThreeQuartersHP()
-    {
-        if (IsAboveThreeQuartersHP())
-        {
-            if (TurnCount == 0)
-                return true;
-            else
-                return false;
-        }
-        else
-            return false;
-    }
-
     public bool IsBetweenOneQuarterAndThreeQuartersHP()
     {
         if (currentHP >= 0.25 * EnemyMaxHP && currentHP < 0.75 * EnemyMaxHP)
             return true;
         else
             return false;        
-    }
-
-    public bool FirstTurnBetweenOneQuarterAndThreeQuartersHP()
-    {
-        if (IsBetweenOneQuarterAndThreeQuartersHP())
-        {
-            if (TurnCount == 0)
-                return true;
-            else
-                return false;
-        }
-        else
-            return false;
     }
 
     public bool IsBelowOneQuarterHP()
@@ -120,17 +178,58 @@ public class EnemyObject : MonoBehaviour
             return false;
     }
 
-    public bool FirstTurnBelowOneQuarterHP()
+    public Result IfHighHP(BehaviorTree.BehaviorTree tree)
+    {
+        if (IsAboveThreeQuartersHP())
+            HighHPStatus = true;
+        else
+            HighHPStatus = false;
+        return new Result(true);
+    }
+
+   public Result IfMiddleHP(BehaviorTree.BehaviorTree tree)
+    {
+        if (IsBetweenOneQuarterAndThreeQuartersHP())
+            MiddleHPStatus = true;
+        else
+            MiddleHPStatus = false;
+        return new Result(true);
+    }
+
+    public Result IfLowHp(BehaviorTree.BehaviorTree tree)
     {
         if (IsBelowOneQuarterHP())
-        {
-            if (TurnCount == 0)
-                return true;
-            else
-                return false;
-        }
+            LowHpStatus = true;
+        else
+            LowHpStatus = false;
+        return new Result(true);
+    }
+
+    public Result IfFirstTurnInHpState(BehaviorTree.BehaviorTree tree)
+    {
+        if (IsFirstTurnInHPState())
+            FirstTurnStatus = true;
+        else
+            FirstTurnStatus = false;
+        return new Result(true);
+    }
+
+    public bool IsFirstTurnInHPState()
+    {
+        if (TurnCount == 0)
+            return true;
         else
             return false;
+    }
+
+    public void ResetTurnCount()
+    {
+        TurnCount = 0;
+    }
+
+    public float ChanceGenerator()
+    {
+        return UnityEngine.Random.Range(0f, 1f);
     }
 
     void Start()

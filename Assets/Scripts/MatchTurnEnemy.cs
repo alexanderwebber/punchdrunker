@@ -17,8 +17,9 @@ public class MatchTurnEnemy : MonoBehaviour
 
 
     // THIS IS WHAT DON HAD IN HIS SCRIPTS (and not the other stuff):
+    // Maybe not needed...TBD
     // End of player turn switches this to true, then enemyTurn() proceeds
-    public bool isEnemyTurn = false;
+    // public bool isEnemyTurn = false;
 
     // JJ Addition:
     private MatchTurn MT;
@@ -78,7 +79,6 @@ public class MatchTurnEnemy : MonoBehaviour
                 // JJ:
                 ChooseAction();
                 currentState = TurnState.WAITING;
-
                 break;
 
             case (TurnState.WAITING):
@@ -114,9 +114,9 @@ public class MatchTurnEnemy : MonoBehaviour
     void ChooseAction()
     {
         TurnHandler myAttack = new TurnHandler();
-        myAttack.Attacker = enemy.name;
-        myAttack.AttacksGameObject = this.gameObject;
-        // myAttack.AttackersTarget = MT.PlayerTurnList[Random.Range(0, MT.PlayerTurnList.Count)]; //doesn't make sense for our game.. needs revision
+        myAttack.Attacker = enemy.name; //name of attacker
+        myAttack.AttacksGameObject = this.gameObject; //who attacks
+        myAttack.AttackersTarget = this.gameObject; // who it is attacking
         MT.CollectActions(myAttack);
     }
 

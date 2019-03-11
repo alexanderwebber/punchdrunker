@@ -586,10 +586,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: 005de347-0581-4bba-abee-a2e855fcd7ca
+  cloudProjectId: 5b5c610a-2111-475e-9877-03cf768959fe
   framebufferDepthMemorylessMode: 0
   projectName: testVS
-  organizationId: alejoweb
+  organizationId: dvu22
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

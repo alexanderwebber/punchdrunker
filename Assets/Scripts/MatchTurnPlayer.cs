@@ -94,13 +94,15 @@ public class MatchTurnPlayer : MonoBehaviour
         }
     }
 
+
     // JJ:
-    //The enemy's attack choice (maybe where AI could be implemented) 
+    //The player's attack choice
     void ChooseAction()
     {
         TurnHandler myAttack = new TurnHandler();
         myAttack.Attacker = player.name;
         myAttack.AttacksGameObject = this.gameObject;
+        myAttack.AttackersTarget = this.gameObject; // who it is attacking
         MT.CollectActions(myAttack);
     }
 
