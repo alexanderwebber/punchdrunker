@@ -9,6 +9,8 @@ public class MoveSetScript : MonoBehaviour
     public EnemyObject enemy;
     public PlayerObject player;
     public MatchTurn turn;
+    public Animator anime;
+    public Animator player_anime;
 
     int[] moveSetDMG = new int[11];
     int[] moveSetCost = new int[11];
@@ -79,6 +81,14 @@ public class MoveSetScript : MonoBehaviour
         int baseDMG = getMoveBaseDMG(moveNum);
         int attackerDMG = getAdjustedDMG(baseDMG);
         bool guard = getGuard(); // gets if the one recieving move has guard up
+        bool evade = getEvade(); // Don added evade
+
+        if (evade)
+        {
+            attackerDMG = 0;
+            Debug.Log("Enemy's attack missed!");
+        }
+
         if (guard) // might decide to have crit ignore guard, when crit exists
         {
             attackerDMG = (int)(attackerDMG / 2);
@@ -136,7 +146,7 @@ public class MoveSetScript : MonoBehaviour
         }*/
 
         // UPDATE prevMove with the move that happened (number) (could be a miss or counter)
-
+        anime.SetTrigger("punch_trigger");
     }
 
     public void doMove(int moveNum)
@@ -155,6 +165,14 @@ public class MoveSetScript : MonoBehaviour
         int baseDMG = getMoveBaseDMG(moveNum);
         int attackerDMG = getAdjustedDMG(baseDMG);
         bool guard = getGuard(); // gets if the one recieving move has guard up
+        bool evade = getEvade(); // Don added evade
+
+        if (evade)
+        {
+            attackerDMG = 0;
+            Debug.Log("Player's attack missed!");
+        }
+
         if (guard) // might decide to have crit ignore guard, when crit exists
         {
             attackerDMG = (int)(attackerDMG / 2);
@@ -231,6 +249,36 @@ public class MoveSetScript : MonoBehaviour
 
         // UPDATE prevMove with the move that happened (number) (could be a miss or counter)
 
+        player_anime.SetTrigger("player_punch_trigger");
+
+    }
+
+    // added by Don
+    public bool getEvade()
+    {
+        float EvadeFactor = ChanceGenerator();
+        if (turn.PlayerTurn)
+        {
+            if (EvadeFactor <= enemy.EVA)
+                enemy.Evasion = true;
+            else
+                enemy.Evasion = false;
+            return (enemy.Evasion);
+        }
+        else
+        {
+            if (EvadeFactor <= player.EVA)
+                player.Evasion = true;
+            else
+                player.Evasion = false;
+            return (player.Evasion);
+        }
+    }
+
+    // added by Don
+    public float ChanceGenerator()
+    {
+        return UnityEngine.Random.Range(0f, 1f);
     }
 
     public bool getGuard()

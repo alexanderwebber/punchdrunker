@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 15
-  productGUID: 5c9d2739ceedc4afa9d602afd112ea44
+  productGUID: 838496ab698654e659bef4ed35d78f37
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: punchDrunkerVS
+  productName: finalVS
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -586,9 +586,9 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: 9eb172fa-98b1-4012-b661-6c3f7c35214a
+  cloudProjectId: 1352c8c1-13f2-4f0e-a5de-93be3255e41c
   framebufferDepthMemorylessMode: 0
-  projectName: punchDrunkerVS
+  projectName: finalVS
   organizationId: alejoweb
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
